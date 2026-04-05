@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(94, 194, 255, 0.16), transparent 32%),
+    radial-gradient(circle at bottom left, rgba(103, 211, 155, 0.08), transparent 24%),
+    #071018;
+  color: #e2edf7;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.panel {
+  @apply rounded-2xl border border-line bg-panel/90 shadow-glow backdrop-blur;
+}
+
+.panel-muted {
+  @apply rounded-2xl border border-line bg-panelAlt/85;
+}
+
+.metric-card {
+  @apply panel p-4;
+}
+
+.section-title {
+  @apply text-sm font-semibold uppercase tracking-[0.2em] text-muted;
+}
+
+.grid-bg {
+  background-image: theme("backgroundImage.grid");
+  background-size: 26px 26px;
+}
+
+.heatmap-low {
+  background: rgba(94, 194, 255, 0.12);
+}
+
+.heatmap-medium {
+  background: rgba(240, 189, 100, 0.16);
+}
+
+.heatmap-high {
+  background: rgba(255, 122, 122, 0.2);
+}
+
+.heatmap-low-gutter {
+  background: linear-gradient(180deg, transparent, rgba(94, 194, 255, 0.7), transparent);
+}
+
+.heatmap-medium-gutter {
+  background: linear-gradient(180deg, transparent, rgba(240, 189, 100, 0.85), transparent);
+}
+
+.heatmap-high-gutter {
+  background: linear-gradient(180deg, transparent, rgba(255, 122, 122, 0.9), transparent);
+}
+
+.monaco-editor .glyph-margin {
+  width: 10px !important;
+}

@@ -1,0 +1,51 @@
+SCENARIO_PRESETS = [
+    {
+        "id": "fast-sanity",
+        "name": "Fast Sanity",
+        "description": "Kiểm tra nhanh với input nhỏ để validate logic và entrypoint.",
+        "tags": ["sanity", "quick"],
+        "scenario": {
+            "input_sizes": [10, 100],
+            "iterations": 2,
+            "random_seed": 42,
+            "timeout_ms": 1500,
+            "memory_cap_mb": 128,
+            "cpu_cap": 1.0,
+            "data_shape": "random",
+            "custom_data": None,
+        },
+    },
+    {
+        "id": "scaling-sweep",
+        "name": "Scaling Sweep",
+        "description": "Quan sát độ tăng chi phí khi kích thước input mở rộng dần.",
+        "tags": ["scaling", "benchmark"],
+        "scenario": {
+            "input_sizes": [100, 1000, 5000, 10000],
+            "iterations": 3,
+            "random_seed": 42,
+            "timeout_ms": 5000,
+            "memory_cap_mb": 256,
+            "cpu_cap": 1.0,
+            "data_shape": "reverse",
+            "custom_data": None,
+        },
+    },
+    {
+        "id": "memory-pressure",
+        "name": "Memory Pressure",
+        "description": "Ưu tiên phát hiện allocation và copy pattern gây áp lực bộ nhớ.",
+        "tags": ["memory", "stress"],
+        "scenario": {
+            "input_sizes": [1000, 5000, 20000],
+            "iterations": 2,
+            "random_seed": 42,
+            "timeout_ms": 6000,
+            "memory_cap_mb": 192,
+            "cpu_cap": 1.0,
+            "data_shape": "duplicate-heavy",
+            "custom_data": None,
+        },
+    },
+]
+

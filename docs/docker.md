@@ -16,8 +16,8 @@ Không còn:
 
 1. Sao chép `.env.example` thành `.env`
 2. Chạy `make up`
-3. Mở `http://localhost:5173`
-4. Mở `http://localhost:8000/docs`
+3. Mở `http://localhost:3001`
+4. Mở `http://localhost:8001/docs`
 
 ## Lệnh Chính
 
@@ -26,6 +26,8 @@ Không còn:
 - `make logs`
 - `make test`
 - `make build`
+- `sh infra/scripts/docker-dev.sh up`
+- `sh infra/scripts/docker-dev.sh up-fresh`
 
 ## Hành Vi Sandbox
 
@@ -40,6 +42,11 @@ Không còn:
 - Preset catalog và capability metadata không yêu cầu thêm service nào ngoài API
 - In-memory cache nằm trong chính process API
 - Nếu restart API, cache bị reset hoàn toàn
+- API local được map ra cổng `8001` để giảm khả năng đụng cổng `8000` trên máy dev
+- `docker-dev.sh up` dùng cache để vòng lặp dev nhanh hơn
+- `docker-dev.sh up-fresh` dùng khi cần build sạch và reset volume
+- Nếu `npm install` hoặc `pip install` trong Docker build bị lỗi mạng, hãy khai báo `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`, `NPM_CONFIG_REGISTRY`, `PIP_INDEX_URL` trong `.env`
+- Frontend image dùng `package-lock.json` cùng `npm ci` để build ổn định và ít sai khác dependency giữa các lần chạy
 
 ## Giới Hạn
 

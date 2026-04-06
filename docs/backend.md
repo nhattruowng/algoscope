@@ -67,7 +67,7 @@
 - `app/services/report_service.py`: report metadata
 - `app/cache/memory_cache.py`: cache TTL trong bộ nhớ
 - `app/analyzers/python_heuristics.py`: heuristic analyzer
-- `app/runners/docker_runner.py`: wrapper cho Docker sandbox
+- `app/runners/docker_runner.py`: wrapper cho Docker sandbox qua Docker SDK
 - `app/profiling/aggregator.py`: tổng hợp metric
 
 ## Dữ Liệu Tạm

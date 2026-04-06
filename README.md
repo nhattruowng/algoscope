@@ -55,6 +55,7 @@ algoscope/
 - Backend: FastAPI, Pydantic 2
 - Sandbox: Docker sandbox runner gọi trực tiếp từ API
 - Chất lượng: pytest, vitest, Makefile, Docker Compose
+- Frontend dependencies được khóa bằng `package-lock.json` và Docker build dùng `npm ci`
 
 ## Các Trang Chính
 
@@ -79,8 +80,8 @@ sh infra/scripts/docker-dev.sh up
 
 Sau đó mở:
 
-- Web UI: `http://localhost:5173`
-- API docs: `http://localhost:8000/docs`
+- Web UI: `http://localhost:3001`
+- API docs: `http://localhost:8001/docs`
 
 ## Chạy Bằng Script Docker
 
@@ -89,8 +90,10 @@ Repo có sẵn script [infra/scripts/docker-dev.sh](infra/scripts/docker-dev.sh)
 Các lệnh thường dùng:
 
 ```bash
-sh infra/scripts/docker-dev.sh build
 sh infra/scripts/docker-dev.sh up
+sh infra/scripts/docker-dev.sh build
+sh infra/scripts/docker-dev.sh up-fresh
+sh infra/scripts/docker-dev.sh build-fresh
 sh infra/scripts/docker-dev.sh down
 sh infra/scripts/docker-dev.sh logs
 sh infra/scripts/docker-dev.sh logs api
@@ -102,8 +105,24 @@ Script sẽ:
 
 - tự tạo `.env` từ `.env.example` nếu chưa có
 - kiểm tra Docker daemon
-- build `sandbox-runner`, `api`, `web`
-- chạy `api` và `web`
+- hỗ trợ mode nhanh bằng cache cho vòng lặp dev hằng ngày
+- hỗ trợ mode sạch hoàn toàn khi cần reset môi trường
+
+Khuyến nghị:
+
+- `up`: chạy nhanh bằng cache, nên dùng hằng ngày
+- `up-fresh`: build sạch hoàn toàn, nên dùng khi nghi ngờ lỗi do image/volume cũ
+
+Nếu Docker build bị lỗi mạng khi cài `npm` hoặc `pip`, hãy cấu hình thêm trong `.env`:
+
+```env
+HTTP_PROXY=http://your-proxy:port
+HTTPS_PROXY=http://your-proxy:port
+NO_PROXY=localhost,127.0.0.1
+NPM_CONFIG_REGISTRY=https://registry.npmjs.org/
+```
+
+Nếu công ty bạn có npm mirror nội bộ, chỉ cần đổi `NPM_CONFIG_REGISTRY`.
 
 ### Windows
 
@@ -126,9 +145,10 @@ sh infra/scripts/docker-dev.sh up
 Nếu muốn chạy native trong PowerShell thì dùng lệnh tương đương:
 
 ```powershell
-docker compose --env-file .env build sandbox-runner api web
-docker compose --env-file .env up -d api web
+docker compose --env-file .env up -d --build api web
 ```
+
+Mặc định local stack map API ra cổng `8001` và UI ra cổng `3001` để tránh va chạm với các service khác đang dùng `8000` hoặc `5173`.
 
 ## Các Lệnh Chính
 

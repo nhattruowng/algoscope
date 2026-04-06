@@ -3,7 +3,7 @@
 ## Gọi `/simulate`
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/simulate \
+curl -X POST http://localhost:8001/api/v1/simulate \
   -H "Content-Type: application/json" \
   -d '{
     "language": "python",
@@ -25,7 +25,7 @@ curl -X POST http://localhost:8000/api/v1/simulate \
 ## Gọi `/analyze`
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/analyze \
+curl -X POST http://localhost:8001/api/v1/analyze \
   -H "Content-Type: application/json" \
   -d '{
     "language": "python",
@@ -38,7 +38,7 @@ curl -X POST http://localhost:8000/api/v1/analyze \
 ## Gọi `/compare-inline`
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/compare-inline \
+curl -X POST http://localhost:8001/api/v1/compare-inline \
   -H "Content-Type: application/json" \
   -d '{
     "left": {
@@ -68,13 +68,13 @@ curl -X POST http://localhost:8000/api/v1/compare-inline \
 ## Gọi `/scenario-presets`
 
 ```bash
-curl http://localhost:8000/api/v1/scenario-presets
+curl http://localhost:8001/api/v1/scenario-presets
 ```
 
 ## Gọi `/capabilities`
 
 ```bash
-curl http://localhost:8000/api/v1/capabilities
+curl http://localhost:8001/api/v1/capabilities
 ```
 
 ## Ví Dụ Response `/simulate`

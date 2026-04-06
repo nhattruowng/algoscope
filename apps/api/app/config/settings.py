@@ -15,10 +15,9 @@ class Settings(BaseSettings):
     sandbox_default_memory_mb: int = 256
     sandbox_default_cpu_cap: float = 1.0
     sandbox_disable_network: bool = True
-    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
+    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3001"])
 
 
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-

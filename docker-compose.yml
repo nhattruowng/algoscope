@@ -11,14 +11,23 @@ services:
     build:
       context: .
       dockerfile: infra/docker/api/Dockerfile
+      args:
+        HTTP_PROXY: ${HTTP_PROXY:-}
+        HTTPS_PROXY: ${HTTPS_PROXY:-}
+        NO_PROXY: ${NO_PROXY:-}
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-}
+        PIP_EXTRA_INDEX_URL: ${PIP_EXTRA_INDEX_URL:-}
     environment:
       SANDBOX_IMAGE: ${SANDBOX_IMAGE:-algoscope-sandbox-runner:latest}
       SANDBOX_DEFAULT_TIMEOUT_MS: ${SANDBOX_DEFAULT_TIMEOUT_MS:-5000}
       SANDBOX_DEFAULT_MEMORY_MB: ${SANDBOX_DEFAULT_MEMORY_MB:-256}
       SANDBOX_DEFAULT_CPU_CAP: ${SANDBOX_DEFAULT_CPU_CAP:-1.0}
       PYTHONPATH: /workspace/apps/api
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NO_PROXY: ${NO_PROXY:-}
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - .:/workspace
       - /var/run/docker.sock:/var/run/docker.sock
@@ -29,18 +38,32 @@ services:
     build:
       context: .
       dockerfile: infra/docker/web/Dockerfile
+      args:
+        HTTP_PROXY: ${HTTP_PROXY:-}
+        HTTPS_PROXY: ${HTTPS_PROXY:-}
+        NO_PROXY: ${NO_PROXY:-}
+        NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmjs.org/}
+        NPM_CONFIG_FETCH_RETRIES: ${NPM_CONFIG_FETCH_RETRIES:-5}
+        NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: ${NPM_CONFIG_FETCH_RETRY_MINTIMEOUT:-20000}
+        NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: ${NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT:-120000}
+        NPM_CONFIG_FETCH_TIMEOUT: ${NPM_CONFIG_FETCH_TIMEOUT:-300000}
     environment:
-      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000/api/v1}
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8001/api/v1}
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+      HTTP_PROXY: ${HTTP_PROXY:-}
+      HTTPS_PROXY: ${HTTPS_PROXY:-}
+      NO_PROXY: ${NO_PROXY:-}
+      NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmjs.org/}
     depends_on:
       - api
     ports:
-      - "5173:5173"
+      - "3001:3001"
     volumes:
       - .:/workspace
       - web_node_modules:/workspace/apps/web/node_modules
     working_dir: /workspace/apps/web
-    command: sh -c "npm install && npm run dev"
+    command: npm run dev
 
 volumes:
   web_node_modules:
-
